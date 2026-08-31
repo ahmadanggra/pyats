@@ -1,0 +1,22 @@
+---
+- name: securing_ospf
+  hosts: core_switch
+  gather_facts: false
+  tasks:
+    - name: Verify ospf neighbors
+      ansible.utils.cli_parse:
+        command: show ip ospf neighbor
+        parser:
+          name: ansible.netcommon.pyats
+      register: ospf_neighbors
+    - name: Display OSPF neighbors
+      debug:
+        var: ospf_neighbors
+
+          
+    # - name: Configure OSPF authentication
+    #   ios_config:
+    #     lines:
+    #       - ip ospf authentication message-digest
+    #       - ip ospf message-digest-key 1 md5 cisco123
+    #     parents: interface Ethernet0/1

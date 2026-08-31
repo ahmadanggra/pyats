@@ -1,0 +1,1 @@
+1. Create gitea workflow for executing pyats pre-check, ansible config change and pyats post-check 

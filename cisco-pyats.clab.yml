@@ -1,0 +1,16 @@
+name: cisco-pyats
+topology:
+  nodes:
+    csr1:
+      kind: cisco_csr1000v
+      image: vrnetlab/cisco_csr1000v:17.03.08
+      mgmt-ipv4: 172.20.20.30
+      startup-config: backup_config/csr1_startup_config.cfg
+    csr2:
+      kind: cisco_csr1000v
+      image: vrnetlab/cisco_csr1000v:17.03.08
+      type: l2
+      mgmt-ipv4: 172.20.20.31
+      startup-config: backup_config/csr2_startup_config.cfg
+  links:
+    - endpoints: ["csr1:eth1", "csr2:eth1"]

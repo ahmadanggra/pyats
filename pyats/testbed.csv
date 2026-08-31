@@ -1,0 +1,3 @@
+hostname,ip,username,password,protocol,os,platform,type
+csr1,172.20.20.30,ansible,admin,ssh,iosxe,asr1k,router
+csr2,172.20.20.31,ansible,admin,ssh,iosxe,asr1k,router

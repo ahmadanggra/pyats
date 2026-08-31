@@ -1,0 +1,29 @@
+devices:
+  csr1:
+    connections:
+      cli:
+        ip: 172.20.20.30
+        protocol: ssh
+    credentials:
+      default:
+        password: admin
+        username: ansible
+      enable:
+        password: admin
+    os: iosxe
+    platform: asr1k
+    type: router
+  csr2:
+    connections:
+      cli:
+        ip: 172.20.20.31
+        protocol: ssh
+    credentials:
+      default:
+        password: admin
+        username: ansible
+      enable:
+        password: admin
+    os: iosxe
+    platform: asr1k
+    type: router
