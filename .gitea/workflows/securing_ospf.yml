@@ -11,6 +11,7 @@ jobs:
           curl -k -X POST http://192.168.50.64:3333/api/integrations/bclt0pj4tecvs2ii \
           -u "ahmad:ahmad1234"
   capture_before_state:
+    needs: backup
     runs-on: ubuntu-latest
     steps:
       - run: |
@@ -21,13 +22,14 @@ jobs:
             "param1": "pre-change"
           }'
   apply-change:
-    needs: backup
+    needs: capture_before_state
     runs-on: ubuntu-latest
     steps:
       - run: |
           curl -k -X POST http://192.168.50.64:3000/api/integrations/lj3wmph16gd50mrm \
           -u "ahmad:ahmad1234"
   capture_after_state:
+    needs: apply-change
     runs-on: ubuntu-latest
     steps:
       - run: |
@@ -49,7 +51,7 @@ jobs:
             "param1": "post-change"
           }'
   rollback:
-    needs: [apply-change, validate]
+    needs: validate
     if: failure()
     runs-on: ubuntu-latest
     steps:
