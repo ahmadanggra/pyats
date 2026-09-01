@@ -24,6 +24,11 @@
         src: "{{ backup_file }}"
         replace: "block"
 
+    - name: Save configuration
+      cisco.ios.ios_command:
+        commands:
+          - write memory
+
     - name: Deleting backup file after restore
       ansible.builtin.file:
         path: "{{ backup_file }}"
