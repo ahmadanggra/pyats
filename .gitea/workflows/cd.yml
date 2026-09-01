@@ -1,3 +1,4 @@
+---
 name: ospf-config-change
 on:
   push:

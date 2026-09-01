@@ -1,0 +1,41 @@
+---
+- name: Network change with pyATS validation
+  hosts: core_switch
+  gather_facts: false
+  tasks:
+    - name: Backup
+      ansible.builtin.import_tasks: tasks/backup_conf.yml
+      tags: backup
+    - name: Pre-check OSPF
+      ansible.builtin.command:
+        cmd: >
+          python scripts/ospf_state.py pre-change
+      # register: pre_check_result
+      tags: pre-check
+    - name: Secureing OSPF
+      ansible.builtin.import_tasks: tasks/securing_ospf.yml
+      tags: securing_ospf
+    # Default OSPF timer for ethernet is 40 seconds
+    - name: Wait for 60 seconds
+      ansible.builtin.wait_for:
+        timeout: 60
+      delegate_to: localhost
+    - name: Post-check OSPF
+      ansible.builtin.command:
+        cmd: >
+          python scripts/ospf_state.py post-change
+      tags: post-check
+    - name: Validate Change
+      ansible.builtin.command:
+        cmd: >
+          python scripts/ospf_validation.py pre-change post-change
+      register: validation_result
+      ignore_errors: true
+      tags: validate
+    - name: Restore
+      ansible.builtin.import_tasks: tasks/restore_conf.yml
+      vars:
+        backup_dir: "/tmp/semaphore/pyats/backup_config"
+        backup_file: "{{ backup_dir }}/{{ inventory_hostname }}_pre-config.txt"
+      when: validation_result.rc != 0
+      tags: restore
