@@ -7,7 +7,7 @@ from pyats.topology import loader
 
 
 def state_ospf(output_dir):
-    output_path = Path('./' + output_dir + '/')
+    output_path = Path('/tmp/semaphore/pyats/' + output_dir + '/')
     output_path.mkdir(parents=True, exist_ok=True)
 
     try:
