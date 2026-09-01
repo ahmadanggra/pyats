@@ -7,6 +7,7 @@ jobs:
   backup:
     runs-on: webhook-runner
     steps:
+      - run: apk add --no-cache curl bash
       - run: |
           curl -k -X POST http://192.168.50.64:3333/api/integrations/bclt0pj4tecvs2ii \
           -u "ahmad:ahmad1234"
@@ -14,6 +15,7 @@ jobs:
     needs: backup
     runs-on: webhook-runner
     steps:
+      - run: apk add --no-cache curl bash
       - run: |
           curl -k -X POST http://192.168.50.64:3000/api/integrations/wti2t7zhuwzywolp \
           -u "ahmad:ahmad1234" \
@@ -25,6 +27,7 @@ jobs:
     needs: capture_before_state
     runs-on: webhook-runner
     steps:
+      - run: apk add --no-cache curl bash
       - run: |
           curl -k -X POST http://192.168.50.64:3000/api/integrations/lj3wmph16gd50mrm \
           -u "ahmad:ahmad1234"
@@ -32,6 +35,7 @@ jobs:
     needs: apply-change
     runs-on: webhook-runner
     steps:
+      - run: apk add --no-cache curl bash
       - run: |
           curl -k -X POST http://192.168.50.64:3000/api/integrations/wti2t7zhuwzywolp \
           -u "ahmad:ahmad1234" \
@@ -43,6 +47,7 @@ jobs:
     needs: ['apply-change', 'capture_after_state', 'capture_before_state']
     runs-on: webhook-runner
     steps:
+      - run: apk add --no-cache curl bash
       - run: |
           curl -k -X POST http://192.168.50.64:3000/api/integrations/936nnwta92r7um5u \
           -u "ahmad:ahmad1234" \
@@ -55,6 +60,7 @@ jobs:
     if: failure()
     runs-on: webhook-runner
     steps:
+      - run: apk add --no-cache curl bash
       - run: |
           curl -k -X POST http://192.168.50.64:3000/api/integrations/19w3ogmfjnpy7d9y \
           -u "ahmad:ahmad1234"
