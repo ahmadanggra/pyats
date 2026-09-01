@@ -37,7 +37,7 @@ def state_ospf(output_dir):
 
             dev.disconnect()
 
-        print(f"Capture state had been done successfully.")
+        print(f"✅ Capture state had been done successfully.")
         return 0
 
     except Exception as e:
@@ -46,7 +46,8 @@ def state_ospf(output_dir):
 
 
 def main():
-    state_ospf(sys.argv[1])
+    result = state_ospf(sys.argv[1])
+    sys.exit(result)
 
 
 if __name__ == '__main__':

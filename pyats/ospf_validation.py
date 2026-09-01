@@ -36,6 +36,7 @@ def validate_ospf(pre_dir, post_dir):
         # Ambil daftar file JSON dari folder pre_snapshot (menggunakan filter .txt sesuai kode Anda)
         files_to_compare = [f for f in os.listdir(pre_folder_path) if f.endswith('.txt')]
 
+        check_diff_results = []
         for file_name in files_to_compare:
             path_pre = os.path.join(pre_folder_path, file_name)
             path_post = os.path.join(post_folder_path, file_name)
@@ -61,16 +62,23 @@ def validate_ospf(pre_dir, post_dir):
             # Cetak hasil analisis jika ada perbedaan riil
             if str(my_diff).strip():
                 print(my_diff)
+                check_diff_results.append(1)
             else:
                 print("✅ Identik (Tidak ada perbedaan di luar field waktu yang diabaikan).\n")
-        return 0
+                check_diff_results.append(0)
+        if 1 in check_diff_results:
+            print("❌ Ada perbedaan yang ditemukan di beberapa file.")
+            return 1
+        else:
+            print("✅ Semua file identik (tidak ada perbedaan di luar field waktu yang diabaikan).")
+            return 0
 
     except Exception as e:
         print(f"Error: {e}")
-        return 1
 
 def main():
-    validate_ospf(sys.argv[1], sys.argv[2])
+    result = validate_ospf(sys.argv[1], sys.argv[2])
+    sys.exit(result)
 
 
 if __name__ == '__main__':
