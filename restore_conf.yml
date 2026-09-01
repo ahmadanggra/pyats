@@ -1,0 +1,30 @@
+---
+- name: Restore Cisco IOS Configuration
+  hosts: core_switch
+  gather_facts: false
+  vars:
+    backup_dir: "./backup_config"
+    backup_file: "{{ backup_dir }}/{{ inventory_hostname }}_pre-config.txt"
+  tasks:
+    - name: Register backup file status
+      ansible.builtin.stat:
+        path: "{{ backup_file }}"
+      register: backup_status
+      delegate_to: localhost
+
+    - name: Check if backup file exists
+      ansible.builtin.assert:
+        that:
+          - backup_status.stat.exists
+        fail_msg: "CRITICAL ERROR: File backup for {{ inventory_hostname }} not found at  {{ backup_file }}! restore process aborted."
+        success_msg: "Backup file found. Continuing restore process..."
+
+    - name: Restore configuration from backup file
+      cisco.ios.ios_config:
+        src: "{{ backup_file }}"
+        replace: "block"
+
+    - name: Deleting backup file after restore
+      ansible.builtin.file:
+        path: "{{ backup_file }}"
+        state: absent

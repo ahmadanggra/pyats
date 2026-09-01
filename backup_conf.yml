@@ -1,0 +1,11 @@
+---
+- name: securing_ospf
+  hosts: core_switch
+  gather_facts: false
+  tasks:
+    - name: Run configuration backup
+      cisco.ios.ios_config:
+        backup: true
+        backup_options:
+          filename: "{{ inventory_hostname }}_pre-config.txt"
+          dir_path: "./backup_config"
