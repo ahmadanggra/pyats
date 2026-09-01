@@ -38,9 +38,11 @@ def state_ospf(output_dir):
             dev.disconnect()
 
         print(f"Capture state had been done successfully.")
+        return 0
 
     except Exception as e:
         print(f"Error parsing command: {e}")
+        return 1
 
 
 def main():
