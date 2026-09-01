@@ -27,13 +27,13 @@ def state_ospf(output_dir):
             dev.connect(log_stdout=False)
             learnt[name] = {}
             learnt[name]['routing'] = dev.learn('routing')
-            learnt[name]['ospf'] = dev.learn('ospf')
+            # learnt[name]['ospf'] = dev.learn('ospf')
 
             with open(output_path / f'routing_{dev.os}_{dev.name}_ops.txt', 'w') as f:
                 json.dump(learnt[name]['routing'].info, f, indent=2)
 
-            with open(output_path / f'ospf_{dev.os}_{dev.name}_ops.txt', 'w') as f:
-                json.dump(learnt[name]['ospf'].info, f, indent=2)
+            # with open(output_path / f'ospf_{dev.os}_{dev.name}_ops.txt', 'w') as f:
+            #     json.dump(learnt[name]['ospf'].info, f, indent=2)
 
             dev.disconnect()
 
