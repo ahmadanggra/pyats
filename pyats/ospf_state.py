@@ -6,7 +6,7 @@ from pathlib import Path
 from pyats.topology import loader
 
 
-def validate_ospf(output_dir):
+def state_ospf(output_dir):
     output_path = Path('./' + output_dir + '/')
     output_path.mkdir(parents=True, exist_ok=True)
 
@@ -33,7 +33,7 @@ def validate_ospf(output_dir):
 
 
 def main():
-    validate_ospf(sys.argv[1])
+    state_ospf(sys.argv[1])
 
 
 if __name__ == '__main__':
