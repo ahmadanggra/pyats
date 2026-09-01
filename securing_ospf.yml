@@ -15,6 +15,7 @@
     - name: Configure OSPF authentication
       cisco.ios.ios_config:
         lines:
+          - ip ospf 1 area 0
           - ip ospf authentication message-digest
           - ip ospf message-digest-key 1 md5 {{ ospf.interfaces[0].authentication.key_chain }}
         parents: "interface {{ ospf.interfaces[0].name }}"
