@@ -3,7 +3,7 @@
   hosts: core_switch
   gather_facts: false
   vars:
-    backup_dir: "./backup_config"
+    backup_dir: "/tmp/semaphore/pyats/backup_config"
     backup_file: "{{ backup_dir }}/{{ inventory_hostname }}_pre-config.txt"
   tasks:
     - name: Register backup file status
