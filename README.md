@@ -12,9 +12,9 @@ Pyats: pip install "pyats[full]"
 ## Install Ansible Cisco IOS module
 ansible-galaxy collection install -r collections/requirements.yml -p collections/
 ## Creating testbed inventory and test using cli
-pyats create testbed file --path pyats/testbed.csv --output pyats/testbed.yml \
-pyats validate testbed pyats/testbed.yml \
-pyats parse "show version" --testbed-file pyats/testbed.yml --devices csr1
+pyats create testbed file --path scripts/testbed.csv --output scripts/testbed.yml \
+pyats validate testbed scripts/testbed.yml \
+pyats parse "show version" --testbed-file scripts/testbed.yml --devices csr1
 ## Basic pyats usecase capture before after ospf change
 1. pyats learn ospf routing --testbed-file testbed.yml --devices csr1 --output pre-change
 2. pyats learn ospf routing --testbed-file testbed.yml --devices csr1 --output post-change
