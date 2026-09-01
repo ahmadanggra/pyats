@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 import sys
+import os
 from pathlib import Path
 
 from pyats.topology import loader
@@ -11,7 +12,7 @@ def state_ospf(output_dir):
     output_path.mkdir(parents=True, exist_ok=True)
 
     try:
-        testbed = loader.load('testbed.yml')
+        testbed = loader.load(os.path.join(os.getcwd(), 'testbed.yml'))
         learnt = {}
 
         for name, dev in testbed.devices.items():
