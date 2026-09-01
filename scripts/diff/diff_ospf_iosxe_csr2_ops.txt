@@ -1,0 +1,93 @@
+--- pre-change/ospf_iosxe_csr2_ops.txt
++++ post-change/ospf_iosxe_csr2_ops.txt
+ vrf:
+  default:
+   address_family:
+    ipv4:
+     instance:
+      1:
+       areas:
+        0.0.0.0:
+         database:
+          lsa_types:
+           1:
+            lsas:
+             1.1.1.1 1.1.1.1:
+              ospfv2:
+               header:
+-               age: 720
++               age: 826
+             1.1.1.2 1.1.1.2:
+              ospfv2:
+               body:
+                router:
+                 links:
++                 172.16.0.0:
++                  link_data: 255.255.255.252
++                  link_id: 172.16.0.0
++                  topologies:
++                   0:
++                    metric: 1
++                    mt_id: 0
++                  type: stub network
+-                 172.16.0.2:
+-                  link_data: 172.16.0.2
+-                  link_id: 172.16.0.2
+-                  topologies:
+-                   0:
+-                    metric: 1
+-                    mt_id: 0
+-                  type: transit network
+               header:
+-               age: 721
++               age: 33
+-               checksum: 0x116
++               checksum: 0x6672
+-               seq_num: 80000018
++               seq_num: 80000019
+-          2:
+-           lsa_type: 2
+-           lsas:
+-            172.16.0.2 1.1.1.2:
+-             adv_router: 1.1.1.2
+-             lsa_id: 172.16.0.2
+-             ospfv2:
+-              body:
+-               network:
+-                attached_routers:
+-                 1.1.1.1:
+-                 1.1.1.2:
+-                network_mask: 255.255.255.252
+-              header:
+-               adv_router: 1.1.1.2
+-               age: 729
+-               checksum: 0x1C4B
+-               length: 32
+-               lsa_id: 172.16.0.2
+-               option: None
+-               seq_num: 8000000A
+-               type: 2
+         interfaces:
+          GigabitEthernet2:
+-          hello_timer: 00:00:08
++          hello_timer: 00:00:05
+-          bdr_ip_addr: 172.16.0.1
+-          bdr_router_id: 1.1.1.1
+-          neighbors:
+-           1.1.1.1:
+-            address: 172.16.0.1
+-            bdr_ip_addr: 172.16.0.1
+-            dead_timer: 00:00:31
+-            dr_ip_addr: 172.16.0.2
+-            neighbor_router_id: 1.1.1.1
+-            state: full
+-            statistics:
+-             nbr_event_count: 6
+-             nbr_retrans_qlen: 0
+         statistics:
+-         area_scope_lsa_cksum_sum: 0x01088F
++         area_scope_lsa_cksum_sum: 0x0151A0
+-         area_scope_lsa_count: 3
++         area_scope_lsa_count: 2
+-         spf_runs_count: 22
++         spf_runs_count: 23
