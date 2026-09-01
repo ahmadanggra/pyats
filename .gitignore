@@ -3,3 +3,4 @@ collections/
 clab-cisco-pyats/
 pyats/post-change/
 pyats/pre-change/
+pyats/diff/
