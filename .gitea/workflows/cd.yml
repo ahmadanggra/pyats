@@ -6,7 +6,6 @@ on:
       - main
 jobs:
   apply-change:
-    needs: capture_before_state
     runs-on: webhook-runner
     steps:
       - shell: sh
