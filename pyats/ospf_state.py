@@ -1,18 +1,26 @@
 #!/usr/bin/env python3
 import json
 import sys
-import os
 from pathlib import Path
 
 from pyats.topology import loader
+
+# Directory this script lives in, regardless of where it's invoked from
+SCRIPT_DIR = Path(__file__).resolve().parent
 
 
 def state_ospf(output_dir):
     output_path = Path('/tmp/semaphore/pyats/' + output_dir + '/')
     output_path.mkdir(parents=True, exist_ok=True)
 
+    testbed_path = SCRIPT_DIR / 'testbed.yml'
+
+    if not testbed_path.exists():
+        print(f"Error: testbed file not found at {testbed_path}")
+        return
+
     try:
-        testbed = loader.load(os.path.join(os.getcwd(), 'testbed.yml'))
+        testbed = loader.load(str(testbed_path))
         learnt = {}
 
         for name, dev in testbed.devices.items():
