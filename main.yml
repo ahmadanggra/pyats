@@ -47,10 +47,3 @@
             backup_file: >-
               {{ backup_dir }}/{{ inventory_hostname }}_pre-config.txt
           tags: restore
-    - name: Restore
-      ansible.builtin.import_tasks: tasks/restore_conf.yml
-      vars:
-        backup_dir: "/tmp/semaphore/pyats/backup_config"
-        backup_file: >-
-          {{ backup_dir }}/{{ inventory_hostname }}_pre-config.txt
-      tags: restore
