@@ -5,3 +5,8 @@
     backup_options:
       filename: "{{ inventory_hostname }}_pre-config.txt"
       dir_path: "/tmp/semaphore/pyats/backup_config"
+# First cisco show running result is offending configure replace command
+- name: Remove the first 3 lines using sed
+  ansible.builtin.command: sed -i '1,3d' /tmp/semaphore/pyats/backup_config/{{ inventory_hostname }}_pre-config.txt
+  delegate_to: localhost
+  changed_when: true
