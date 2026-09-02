@@ -5,6 +5,12 @@
   tasks:
     - name: Update OSPF configuration
       block:
+        - name: Remove all working directory if exists
+          ansible.builtin.file:
+            path: "/tmp/semaphore/pyats"
+            state: absent
+          delegate_to: localhost
+          tags: remove-working-dir
         - name: Backup
           ansible.builtin.import_tasks: tasks/backup_conf.yml
           tags: backup
@@ -38,6 +44,13 @@
           ansible.builtin.import_tasks: tasks/restore_conf.yml
           vars:
             backup_dir: "/tmp/semaphore/pyats/backup_config"
-            backup_file: "{{ backup_dir }}/{{ inventory_hostname }}_pre-config.txt"
-          when: validation_result.rc != 0
+            backup_file: >-
+              {{ backup_dir }}/{{ inventory_hostname }}_pre-config.txt
           tags: restore
+    - name: Restore
+      ansible.builtin.import_tasks: tasks/restore_conf.yml
+      vars:
+        backup_dir: "/tmp/semaphore/pyats/backup_config"
+        backup_file: >-
+          {{ backup_dir }}/{{ inventory_hostname }}_pre-config.txt
+      tags: restore
