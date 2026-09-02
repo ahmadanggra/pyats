@@ -3,4 +3,4 @@ ospf:
   interfaces:
     - name: GigabitEthernet2
       authentication:
-        key_chain: cisco123
+        key_chain: arista123
