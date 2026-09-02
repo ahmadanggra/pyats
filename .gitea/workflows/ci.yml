@@ -1,0 +1,41 @@
+---
+name: NetDevOps CI Pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci-validation:
+    name: Lint & Dry-Run Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python Environment
+        run: |
+          python3 -m venv .venv
+          echo "$(pwd)/.venv/bin" >> "$GITHUB_PATH"
+
+      - name: Install CI Tools (yamllint & ansible)
+        run: |
+          pip install --upgrade pip
+          pip install --no-cache-dir yamllint ansible "pyats[full]"
+
+      - name: 1. YAML Syntax & Format Linting
+        run: |
+          echo "=== Running YAML Lint ==="
+          yamllint *.yml tasks/*
+
+      - name: 2. PyATS Testbed YAML Validation
+        run: |
+          echo "=== Validating PyATS Testbed Syntax ==="
+          pyats validate testbed scripts/testbed.yml
+
+      - name: 3. Ansible Playbook Dry-Run (--check)
+        run: |
+          echo "=== Running Ansible Syntax Check & Dry Run ==="
+          ansible-playbook -i inventory main.yml --syntax-check
