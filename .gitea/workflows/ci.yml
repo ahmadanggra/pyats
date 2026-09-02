@@ -6,15 +6,10 @@ on:
     branches:
       - main
 
-# Set the default shell to standard sh for Alpine/PyATS container compatibility
-defaults:
-  run:
-    shell: sh
-
 jobs:
   ci-validation:
     name: Lint & Dry-Run Checks
-    runs-on: webhook-runner
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository Code
