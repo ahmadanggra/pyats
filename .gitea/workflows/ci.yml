@@ -15,8 +15,6 @@ jobs:
   ci-validation:
     name: Lint & Dry-Run Checks
     runs-on: webhook-runner
-    container:
-      image: cisco-pyats/pyats:latest
 
     steps:
       - name: Checkout Repository Code
@@ -24,7 +22,7 @@ jobs:
 
       - name: Install CI Tools (yamllint & ansible)
         run: |
-          pip install --no-cache-dir yamllint ansible
+          pip install --no-cache-dir yamllint ansible "pyats[full]"
 
       - name: 1. YAML Syntax & Format Linting
         run: |
