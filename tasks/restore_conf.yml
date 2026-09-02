@@ -10,10 +10,32 @@
       - backup_status.stat.exists
     fail_msg: "Fail:{{ inventory_hostname }} not found at {{ backup_file }}"
     success_msg: "Backup file found. Continuing restore process..."
-- name: Restore configuration from backup file
-  cisco.ios.ios_config:
-    src: "{{ backup_file }}"
-    replace: "block"
+  delegate_to: localhost
+# Somehow ansible.netcommon.net_put not working even using ansible core 2.18.0, so revert to traditional scp command using sshpass
+- name: Upload backup file to device
+  ansible.builtin.command:
+    argv:
+      - sshpass
+      - -p
+      - "{{ ansible_password }}"
+      - scp
+      - -O
+      - -o
+      - StrictHostKeyChecking=no
+      - "{{ backup_file }}"
+      - "{{ ansible_user }}@{{ ansible_host }}:flash:/restore_config.cfg"
+  delegate_to: localhost
+# Restore configuration using ansible.netcommon.cli_restore module, somehow work in ansible core 2.18.0 but not in 2.18.x above
+- name: Restore IOS-XE configuration
+  ansible.netcommon.cli_restore:
+    filename: restore_config.cfg
+    path: flash://
+- name: Remove temporary config from flash
+  cisco.ios.ios_command:
+    commands:
+      - command: "delete flash:/restore_config.cfg"
+        prompt: "[confirm]"
+        answer: "\r"
 - name: Save configuration
   cisco.ios.ios_command:
     commands:
