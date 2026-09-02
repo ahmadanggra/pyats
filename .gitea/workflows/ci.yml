@@ -15,6 +15,12 @@ jobs:
       - name: Checkout Repository Code
         uses: actions/checkout@v4
 
+      - name: Set up Python Environment
+        run: |
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip install --upgrade pip
+
       - name: Install CI Tools (yamllint & ansible)
         run: |
           pip install --no-cache-dir yamllint ansible "pyats[full]"
