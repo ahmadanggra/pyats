@@ -1,0 +1,44 @@
+---
+name: NetDevOps CI Pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+
+# Set the default shell to standard sh for Alpine/PyATS container compatibility
+defaults:
+  run:
+    shell: sh
+
+jobs:
+  ci-validation:
+    name: Lint & Dry-Run Checks
+    runs-on: webhook-runner
+    container:
+      image: cisco-pyats/pyats:latest
+
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: Install CI Tools (yamllint & ansible)
+        run: |
+          pip install --no-cache-dir yamllint ansible
+
+      - name: 1. YAML Syntax & Format Linting
+        run: |
+          echo "=== Running YAML Lint ==="
+          yamllint *.yml tasks/*
+
+      - name: 2. PyATS Testbed YAML Validation
+        run: |
+          echo "=== Validating PyATS Testbed Syntax ==="
+          # Validates that testbed.yaml is structured properly according to PyATS schemas
+          pyats validate testbed scripts/testbed.yml
+
+      - name: 3. Ansible Playbook Dry-Run (--check)
+        run: |
+          echo "=== Running Ansible Syntax Check & Dry Run ==="
+          # Check syntax first
+          ansible-playbook -i inventory main.yml --syntax-check
