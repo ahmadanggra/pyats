@@ -18,11 +18,11 @@ jobs:
       - name: Set up Python Environment
         run: |
           python3 -m venv .venv
-          source .venv/bin/activate
-          pip install --upgrade pip
+          echo "$(pwd)/.venv/bin" >> "$GITHUB_PATH"
 
       - name: Install CI Tools (yamllint & ansible)
         run: |
+          pip install --upgrade pip
           pip install --no-cache-dir yamllint ansible "pyats[full]"
 
       - name: 1. YAML Syntax & Format Linting
@@ -33,11 +33,9 @@ jobs:
       - name: 2. PyATS Testbed YAML Validation
         run: |
           echo "=== Validating PyATS Testbed Syntax ==="
-          # Validates that testbed.yaml is structured properly according to PyATS schemas
           pyats validate testbed scripts/testbed.yml
 
       - name: 3. Ansible Playbook Dry-Run (--check)
         run: |
           echo "=== Running Ansible Syntax Check & Dry Run ==="
-          # Check syntax first
           ansible-playbook -i inventory main.yml --syntax-check
